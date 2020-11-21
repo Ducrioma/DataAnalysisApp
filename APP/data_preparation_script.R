@@ -71,17 +71,17 @@ prepare_data <- function(city, data_date)
     calendar <- calendar %>%
         group_by(listing_id) %>%
         summarise(availability_30 = sum(available[day_nb<=30], na.rm = TRUE),
-                  #availability_60 = sum(available[day_nb<=60], na.rm = TRUE),
-                  #availability_90 = sum(available[day_nb<=90], na.rm = TRUE),
-                  #availability_365 = sum(available[day_nb<=365], na.rm = TRUE),
+                  availability_60 = sum(available[day_nb<=60], na.rm = TRUE),
+                  availability_90 = sum(available[day_nb<=90], na.rm = TRUE),
+                  availability_365 = sum(available[day_nb<=365], na.rm = TRUE),
                   price_30 = mean(price[day_nb<=30 & available==0], na.rm = TRUE),
-                  #price_60 = mean(price[day_nb<=60 & available==0], na.rm = TRUE),
-                  #price_90 = mean(price[day_nb<=90 & available==0], na.rm = TRUE),
-                  #price_365 = mean(price[day_nb<=365 & available==0], na.rm = TRUE),
+                  price_60 = mean(price[day_nb<=60 & available==0], na.rm = TRUE),
+                  price_90 = mean(price[day_nb<=90 & available==0], na.rm = TRUE),
+                  price_365 = mean(price[day_nb<=365 & available==0], na.rm = TRUE),
                   revenue_30 = sum(revenue[day_nb<=30], na.rm = TRUE),
-                  #revenue_60 = sum(revenue[day_nb<=60], na.rm = TRUE),
-                  #revenue_90 = sum(revenue[day_nb<=90], na.rm = TRUE),
-                  #revenue_365 = sum(revenue[day_nb<=365], na.rm = TRUE)           
+                  revenue_60 = sum(revenue[day_nb<=60], na.rm = TRUE),
+                  revenue_90 = sum(revenue[day_nb<=90], na.rm = TRUE),
+                  revenue_365 = sum(revenue[day_nb<=365], na.rm = TRUE)           
         )
     
     listings_cleansed <- listings %>% left_join(calendar, by = c("id" = "listing_id"))
@@ -143,6 +143,11 @@ listings <-
             lapply(files_paths, read.csv, row.names=1))
 
 
+# Removing lines where number of bedrooms = 0
+listings$bedrooms <- ifelse(listings$bedrooms == 0, NaN, listings$bedrooms)
 listings <- listings[complete.cases(listings), ]
 
+listings <- listings[complete.cases(listings), ]
+
+listings$bedrooms <- ifelse(listings$bedrooms >= 5, "5+", listings$bedrooms)
 

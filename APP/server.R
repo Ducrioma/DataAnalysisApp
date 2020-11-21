@@ -1,24 +1,62 @@
 # COMMENTAIRE DE SOURCE A ENLEVER POUR LE RENDU
 #source("data_preparation_script.R")
 
+library(dplyr)
+library(stringr)
+library(ggplot2)
+library(data.table)
 
 
-server <- function(input, output) {
+server <- function(input, output,session) {
+  #Aggregation
+  aggregrate_selected_cities = reactive({
+    if(length(input$cities1) > 0){
+      data1 = (listings[listings$city%in%input$cities1, ])
+      feature = (data1[[input$features]])
+
+      
+      aggregate(feature,list(data1$city),input$aggreg)
+    }
+
+    
+    
+  })
   
-  output$display_cities <- renderText({
-    paste("You have selected this",aggregate(listings$availability_30,list(listings$city),mean))
+  output$aggregating <- renderTable({
+    aggregrate_selected_cities()
   })
   
   
+  #Plotting cities
   data_selected_cities = reactive({
-    return(listings[listings$city%in%input$cities1, ])
+      if(length(input$cities1) > 0){
+
+        
+        data1 = (listings[listings$city%in%input$cities1, ])
+        feature = (data1[[input$features]])
+        
+        if(input$ndim == "no_criteria"){
+          return (ggplot(data=data1, aes(city, feature))
+                  + geom_boxplot(aes(colour = "red"), outlier.shape = NA)
+                  +  scale_y_continuous(limits = quantile(feature, c(0.1, 0.9), na.rm = T))
+                  + labs(y = input$features))
+        }else{
+          new_dim = (data1[[input$ndim]])
+
+          return (ggplot(data1, aes(new_dim, feature))
+                  + geom_boxplot(aes(colour = "red"), outlier.shape = NA)
+                  + scale_y_continuous(limits = quantile(feature, c(0.1, 0.9), na.rm = T))
+                  + facet_wrap(~ data1$city)
+                  + labs(x = input$ndim, y = input$features))
+                    
+        }
+
+                
+      }
   })
   
-  output$testPlot1 <-renderPlot(
-
-      ggplot(data=data_selected_cities(), aes(city, availability_30))
-      + geom_boxplot(aes(colour = "red"), outlier.shape = NA)
-      +  scale_y_continuous(limits = quantile(listings$availability_30, c(0.1, 0.9), na.rm = T))
-
+  output$plotting1 <-renderPlot(
+    data_selected_cities()
   )
+
 }
