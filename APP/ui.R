@@ -47,8 +47,9 @@ ui <- fluidPage(
                                             "Boxplot",
                                             "...")),
                              br(),
-                             checkboxGroupInput("ndim","New Dimensions",
-                                                c("Room type" = "room_type",
+                             selectInput("ndim","Add a criteria",
+                                                c("No additional criteria" = "no_criteria",
+                                                  "Room type" = "room_type",
                                                   "House size (# of bedrooms)" = "bedrooms",
                                                   "Neighborhood" = "neighbourhood_cleansed"
                                                   )),
