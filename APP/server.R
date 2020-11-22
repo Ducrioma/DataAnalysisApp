@@ -78,10 +78,9 @@ server <- function(input, output,session) {
           
         }else if(input$plot_type == "density"){
           if(input$ndim == "no_criteria"){
-            return (ggplot(data=data1, aes(feature))
+            return (ggplot(data=data1, aes(x= feature, color = city))
                     + geom_density(alpha = 0.2)
                     + coord_cartesian(xlim = ranges$x, ylim = ranges$y, expand = FALSE)
-                    + facet_wrap(~ data1$city)
                     + labs(x=input$features)
                     + theme(legend.position="bottom"))
           }else{
