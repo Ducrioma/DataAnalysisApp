@@ -57,7 +57,12 @@ ui <- fluidPage(
                            ),
                            mainPanel(
                                      mainPanel(
-                                       plotOutput(outputId = "plotting1"),
+                                       plotOutput(outputId = "plotting1",
+                                                  dblclick = "plot1_dblclick",
+                                                  brush = brushOpts(
+                                                    id = "plot1_brush",
+                                                    resetOnNew = TRUE
+                                                  )),
                                        width = 12
                                      ),
                                      mainPanel(
