@@ -34,22 +34,44 @@ server <- function(input, output,session) {
         
         data1 = (listings[listings$city%in%input$cities1, ])
         feature = (data1[[input$features]])
+        new_dim = (data1[[input$ndim]])
         
-        if(input$ndim == "no_criteria"){
-          return (ggplot(data=data1, aes(city, feature))
-                  + geom_boxplot(aes(colour = "red"), outlier.shape = NA)
-                  +  scale_y_continuous(limits = quantile(feature, c(0.1, 0.9), na.rm = T))
-                  + labs(y = input$features))
-        }else{
-          new_dim = (data1[[input$ndim]])
+        
+        if(input$plot_type == "geom_boxplot"){
+          
+          if(input$ndim == "no_criteria"){
+            return (ggplot(data=data1, aes(city, feature))
+                    + geom_boxplot(aes(colour = "red"), outlier.shape = NA)
+                    +  scale_y_continuous(limits = quantile(feature, c(0.1, 0.9), na.rm = T))
+                    + labs(y = input$features))
+          }else{
 
-          return (ggplot(data1, aes(new_dim, feature))
-                  + geom_boxplot(aes(colour = "red"), outlier.shape = NA)
-                  + scale_y_continuous(limits = quantile(feature, c(0.1, 0.9), na.rm = T))
-                  + facet_wrap(~ data1$city)
-                  + labs(x = input$ndim, y = input$features))
-                    
+            return (ggplot(data1, aes(new_dim, feature))
+                    + geom_boxplot(aes(colour = "red"), outlier.shape = NA)
+                    + scale_y_continuous(limits = quantile(feature, c(0.1, 0.9), na.rm = T))
+                    + facet_wrap(~ data1$city)
+                    + labs(x = input$ndim, y = input$features))
+          }
+          
+        }else if(input$plot_type == "histo"){
+          
+          if(input$ndim == "no_criteria"){
+            return(ggplot(data1, aes(x=feature,color=city))
+                   + geom_histogram(fill="white", position= 'identity', alpha = 0.5)
+                   + scale_x_continuous(limits = quantile(feature,c(0.1,0.9), na.rm = T))
+                   + labs(x = input$features))
+          }else{
+            return (ggplot(data1, aes(x=feature,color=new_dim))
+                    + geom_histogram(fill="white", position= 'identity', alpha = 0.5)
+                    + scale_x_continuous(limits = quantile(feature,c(0.1,0.9), na.rm = T))
+                    + facet_wrap(~ data1$city)
+                    + labs(x = input$features))
+          }
+          
+        }else if(input$plot_type == "density"){
+          
         }
+
 
                 
       }
