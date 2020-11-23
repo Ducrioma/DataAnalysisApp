@@ -1,7 +1,3 @@
-# COMMENTAIRE DE SOURCE A ENLEVER POUR LE RENDU
-#source("../SCRIPTS/preprocessing.R")
-
-
 library(dplyr)
 library(stringr)
 library(ggplot2)

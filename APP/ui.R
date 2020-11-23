@@ -1,3 +1,6 @@
+# COMMENTAIRE DE SOURCE A ENLEVER POUR LE RENDU
+source("../SCRIPTS/preprocessing.R")
+
 library(shiny)
 
 # See above for the definitions of ui and server

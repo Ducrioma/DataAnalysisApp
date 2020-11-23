@@ -37,39 +37,39 @@ prepare_data <- function(city, data_date, listings_url, calendar_url)
     txt <- readLines(con)
     # reading from the file
     calendar <- read.csv(textConnection(txt))
-
+    
     ## Add Keys: columns city and day date
     listings$city <- city
     listings$data_date <- data_date
-
+    
     ## Select interesting columns
     ### Most columns don't contain interesting information
     columns_listings <- c("city", "data_date", "id", "neighbourhood_cleansed",
                           "latitude", "longitude",
                           "property_type", "room_type", "accommodates", "bedrooms",
                           "beds", "price", "minimum_nights",  "maximum_nights")
-
+    
     listings <- listings %>%
         select(columns_listings) %>%
         arrange(id)
-
-
+    
+    
     # Cleaning calendar dataframe
-
+    
     ## arrange by id and date
     calendar <- calendar %>%
         arrange(listing_id, date)
-
+    
     ## add day number (starting first day)
     calendar <- calendar %>%
         group_by(listing_id) %>%
         mutate(day_nb = row_number()) %>%
         ungroup()
-
+    
     ## change available column to binary
     calendar <- calendar %>%
         mutate(available = ifelse(available=="t", 1, 0))
-
+    
     ## clean price column and transform to numeric
     calendar <- calendar %>%
         mutate(price = str_replace(price, "\\$", ""),
@@ -80,11 +80,11 @@ prepare_data <- function(city, data_date, listings_url, calendar_url)
     calendar <- calendar %>%
         mutate(price = as.numeric(price),
                adjusted_price = as.numeric(adjusted_price))
-
+    
     ## calculate estimated revenue for upcoming day
     calendar <- calendar %>%
         mutate(revenue = price*(1-available))
-
+    
     ## calculate availability, price, revenue for next 30, 60 days ... for each listing_id
     calendar <- calendar %>%
         group_by(listing_id) %>%
@@ -101,11 +101,11 @@ prepare_data <- function(city, data_date, listings_url, calendar_url)
                   revenue_90 = sum(revenue[day_nb<=90], na.rm = TRUE),
                   revenue_365 = sum(revenue[day_nb<=365], na.rm = TRUE)
         )
-
+    
     listings_cleansed <- listings %>% left_join(calendar, by = c("id" = "listing_id"))
-
+    
     dir.create(file.path("data_cleansed", city, data_date), recursive = TRUE)
-
+    
     write.csv(listings_cleansed, file.path("data_cleansed", city, data_date, "listings.csv"))
     print(paste0("saving data into ", file.path("data_cleansed", city, data_date, "listings.csv")))
 }
@@ -145,7 +145,7 @@ for(city in sample_cities){
     file_dir <- file.path(".", "data_cleansed", city)
     file_subdirs <- list.dirs(file_dir)
     file_subdirs <- file_subdirs[-1]
-
+    
     for(file_subdir in file_subdirs){
         if(file_subdir < file.path(file_dir, min_date) | file_subdir > file.path(file_dir, max_date)  )
             file_subdirs = file_subdirs[file_subdirs != file_subdir]
