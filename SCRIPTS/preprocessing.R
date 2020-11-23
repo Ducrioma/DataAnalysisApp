@@ -111,7 +111,7 @@ prepare_data <- function(city, data_date, listings_url, calendar_url)
 }
 
 # First LOAD THE FILE all_data.csv
-all_data <- read.csv(file="all_data.csv")
+all_data <- read.csv(file="../APP/data_source/all_data.csv")
 # Default countries for the app project
 default_countries <- c('france','italy','germany','spain','the-netherlands','belgium')
 # get the cities from the
@@ -156,6 +156,8 @@ files_paths <- file.path(files_paths, "listings.csv")
 listings <-
     do.call(rbind,
             lapply(files_paths, read.csv, row.names=1))
+
+print("wesh")
 
 # PREPROCESSING #
 # BreakEvenPoint
