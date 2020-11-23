@@ -124,7 +124,8 @@ for (country in default_countries){
 selected_cities <- unlist(strsplit(selected_cities, ","))
 selected_cities <- gsub(" ", "", selected_cities, fixed = TRUE)
 # Randomly choose 3 cities
-sample_cities <- sample(selected_cities,3)
+# sample_cities <- sample(selected_cities,3)
+sample_cities <- c('florence','antwerp','bordeaux','sevilla','mallaga')
 # Reading data for the 3 cities
 for(i in 1:length(sample_cities)){
     city <- sample_cities[i]
@@ -155,3 +156,26 @@ files_paths <- file.path(files_paths, "listings.csv")
 listings <-
     do.call(rbind,
             lapply(files_paths, read.csv, row.names=1))
+
+# PREPROCESSING #
+# BreakEvenPoint
+cities_spain <- c("sevilla","malaga")
+square_meter <- c(2516.67,2842.86)
+charges <- c(126.44,112.01)
+
+for(i in 1:length(cities_spain)){
+    city <- cities_spain[i]
+    bool_index <- listings$city==city
+    # Creating fixed costs column
+    fixed_cost<-(square_meter[i]*(listings[bool_index,]$bedrooms* 10 + (1.5*listings[bool_index,]$bedrooms+8.5)))
+    listings[bool_index, 'fixed_cost'] <- fixed_cost
+    # Creating var costs column
+    listings[bool_index, 'var_cost'] <- ((charges[i]/31) * (365-as.integer(listings[bool_index, ]$availability_365)))
+    # Break Even Point in Year
+    listings[bool_index,'bep_year'] <- listings[bool_index,]$fixed_cost/(listings[bool_index,]$revenue_365-listings[bool_index,]$var_cost)
+    # Break Even Point in Turnover
+    listings[bool_index,'bep_turnover'] <- listings[bool_index,]$fixed_cost/((listings[bool_index,]$revenue_365-listings[bool_index,]$var_cost)/listings[bool_index,]$revenue_365)
+}
+# Preparing the rooms
+listings$bedrooms <- ifelse(listings$bedrooms == 0, NaN, listings$bedrooms)
+listings$bedrooms <- ifelse(listings$bedrooms >= 5, "5+", listings$bedrooms)
