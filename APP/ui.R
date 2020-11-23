@@ -4,7 +4,7 @@ library(shiny)
 ui <- fluidPage(
   
   # App title ----
-  titlePanel("Hello les kheys!"),
+  titlePanel("Instruction List 3"),
   
     
   # Main panel for displaying outputs ----
@@ -14,12 +14,15 @@ ui <- fluidPage(
                   tabPanel("Comparing Cities",
                            br(),
                            sidebarPanel(
+                             # checkboxGroupInput("cities1","Cities to compare:",
+                             #              c("Malaga" = "malaga",
+                             #                "Mallorca" = "mallorca",
+                             #                "Sevilla" = "sevilla"),
+                             #              selected = "Malaga"
+                             #                ),
                              checkboxGroupInput("cities1","Cities to compare:",
-                                          c("Malaga" = "malaga",
-                                            "Mallorca" = "mallorca",
-                                            "Sevilla" = "sevilla"),
-                                          selected = "Malaga"
-                                            ),
+                                                choices = unique(listings$city)
+                             ),
                              br(),
                              selectInput("features","Features to compare",
                                           c("Availability over 30 days" = "availability_30",
