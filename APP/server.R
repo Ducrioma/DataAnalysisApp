@@ -1,5 +1,6 @@
 # COMMENTAIRE DE SOURCE A ENLEVER POUR LE RENDU
-source("data_preparation_script.R")
+#source("../SCRIPTS/preprocessing.R")
+
 
 library(dplyr)
 library(stringr)
@@ -10,7 +11,13 @@ library(data.table)
 server <- function(input, output,session) {
   #Zoom function
   ranges <- reactiveValues(x = NULL, y = NULL)
-
+  
+  observe({
+    my_max = 2
+    if(length(input$cities1) > my_max){
+      updateCheckboxGroupInput(session, "cities1", selected= tail(input$cities1,my_max))
+    }
+  })
   
   #Aggregation
   aggregrate_selected_cities = reactive({
@@ -119,5 +126,7 @@ server <- function(input, output,session) {
       ranges$y <- NULL
     }
   })
+  
+
 
 }
