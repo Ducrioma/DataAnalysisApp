@@ -1,15 +1,16 @@
+source("../SCRIPTS/preprocessing.R")
 library(shiny)
 
 # See above for the definitions of ui and server
 ui <- fluidPage(
-  
+
   # App title ----
   titlePanel("Instruction List 3"),
-  
-    
+
+
   # Main panel for displaying outputs ----
   mainPanel(
-      
+
     tabsetPanel( type = "tabs",
                   tabPanel("Comparing Cities",
                            br(),
@@ -73,7 +74,7 @@ ui <- fluidPage(
                                      ),
                                      width = 8
                                      )),
-                 
+
                   tabPanel("Deep Dive in one City Analysis",
                            br(),
                            sidebarPanel(
@@ -89,15 +90,11 @@ ui <- fluidPage(
                              tabPanel("Map of the population",
                                       plotOutput(outputId = "pop_map"))
                            ))
-        
+
     ), width = 12
-    
-    
-      
+
+
+
   )
-  
+
 )
-
-
-
-
