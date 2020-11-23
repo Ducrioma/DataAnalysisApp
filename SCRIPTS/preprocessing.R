@@ -125,19 +125,24 @@ selected_cities <- unlist(strsplit(selected_cities, ","))
 selected_cities <- gsub(" ", "", selected_cities, fixed = TRUE)
 # Randomly choose 3 cities
 # sample_cities <- sample(selected_cities,3)
-sample_cities <- c('florence','antwerp','bordeaux','sevilla','mallaga')
+sample_cities <- c('florence','antwerp','bordeaux','sevilla','malaga')
 # Reading data for the 3 cities
 for(i in 1:length(sample_cities)){
     city <- sample_cities[i]
-    city_data <- available_data_per_city(city)
-    data_date <- city_data[1,'data_date']
-    listings_city_url <- toString(city_data[1,'listings_url'])
-    calendar_city_url <- toString(city_data[1,'calendar_url'])
-    print("-------------------------------------------------")
-    print(paste(c("Preparing data for", city, "compiled at", data_date), collapse = " "))
-    prepare_data(city, data_date,listings_city_url,calendar_city_url)
+    file_dir <- file.path(".", "data_cleansed", city)
+    if(!dir.exists(file_dir)){
+      city_data <- available_data_per_city(city)
+      data_date <- city_data[1,'data_date']
+      listings_city_url <- toString(city_data[1,'listings_url'])
+      calendar_city_url <- toString(city_data[1,'calendar_url'])
+      print("-------------------------------------------------")
+      print(paste(c("Preparing data for", city, "compiled at", data_date), collapse = " "))
+      prepare_data(city, data_date,listings_city_url,calendar_city_url)
+    }
 }
 ## Once data for multiple cities are prepared
+min_date <- '2020-05-01'
+max_date <- '2020-11-01'
 ## We can read these data and concatenate them together into one dataframe
 files_paths <- c()
 # Read data in cities between min_date and max_date
