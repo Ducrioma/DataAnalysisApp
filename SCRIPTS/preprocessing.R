@@ -162,8 +162,6 @@ listings <-
     do.call(rbind,
             lapply(files_paths, read.csv, row.names=1))
 
-print("wesh")
-
 # PREPROCESSING #
 # BreakEvenPoint
 cities_spain <- c("sevilla","malaga")
