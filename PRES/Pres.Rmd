@@ -1,0 +1,118 @@
+---
+title: "App Presentation"
+author: "Pierre-Mathieu-Camille-Marius"
+date: "24/11/2020"
+output:
+  slidy_presentation:
+    font_adjustment: -1
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+# install.packages('leaflet')
+library(dplyr)
+# issue with this one
+library(stringr)
+library(ggplot2)
+library(data.table)
+library(repr)
+library(leaflet)
+
+# Reading cleansed data
+cities <- c("malaga","sevilla")
+data_dates <- c("2020-06-30","2020-06-29")
+
+# We are only interested in data between min_date and max_date
+min_date <- '2020-05-01'
+max_date <- '2020-11-01'
+
+files_paths <- c()
+
+for(city in cities){
+    file_dir <- file.path("../APP/", "data_cleansed", city)
+    file_subdirs <- list.dirs(file_dir)
+    file_subdirs <- file_subdirs[-1]
+
+    for(file_subdir in file_subdirs){
+        if(file_subdir < file.path(file_dir, min_date) | file_subdir > file.path(file_dir, max_date)  )
+            file_subdirs = file_subdirs[file_subdirs != file_subdir]
+    }
+    files_paths <- c(files_paths, file_subdirs)
+}
+files_paths <- file.path(files_paths, "listings.csv")
+listings <-
+    do.call(rbind,
+            lapply(files_paths, read.csv, row.names=1))
+
+# PREPROCESSING #
+# BreakEvenPoint
+cities_spain <- c("sevilla","malaga")
+square_meter <- c(2516.67,2842.86)
+charges <- c(126.44,112.01)
+
+for(i in 1:length(cities_spain)){
+    city <- cities_spain[i]
+    bool_index <- listings$city==city
+    # Creating fixed costs column
+    fixed_cost<-(square_meter[i]*(listings[bool_index,]$bedrooms* 10 + (1.5*listings[bool_index,]$bedrooms+8.5)))
+    listings[bool_index, 'fixed_cost'] <- fixed_cost
+    # Creating var costs column
+    listings[bool_index, 'var_cost'] <- ((charges[i]/31) * (365-as.integer(listings[bool_index, ]$availability_365)))
+    # Break Even Point in Year
+    listings[bool_index,'bep_year'] <- listings[bool_index,]$fixed_cost/(listings[bool_index,]$revenue_365-listings[bool_index,]$var_cost)
+    # Break Even Point in Turnover
+    listings[bool_index,'bep_turnover'] <- listings[bool_index,]$fixed_cost/((listings[bool_index,]$revenue_365-listings[bool_index,]$var_cost)/listings[bool_index,]$revenue_365)
+}
+# Preparing the rooms
+listings$bedrooms <- ifelse(listings$bedrooms == 0, NaN, listings$bedrooms)
+listings$bedrooms <- ifelse(listings$bedrooms >= 5, "5+", listings$bedrooms)
+```
+
+## Specific Analysis : Break Even Point
+- The period in years when the investement start to generates benefits for the investor.
+- Approach based on fixed costs and variable costs.
+- Estimation of more profitable cities
+```{r}
+defaultW <- getOption("warn")
+options(warn = -1)
+listings$bep_year[listings$bep_year>100] <- 100
+distrib_bep_year <- ggplot(listings, aes(city, bep_year))
+distrib_bep_year + geom_boxplot(aes(colour = "red"), outlier.shape = NA) +
+    scale_y_continuous(limits = quantile(listings$bep_year, c(0.1, 0.9), na.rm = T))
+options(warn = defaultW)
+```
+## Architecture-2
+
+
+
+## Possible Evolution for the App
+- Currently the App is limited to **5** cities
+- Improve the App with more cities : select and process cities' data *on the fly*
+- Add improved data visualisation with availability predictions, revenue estimation...
+
+```{r}
+defaultW <- getOption("warn")
+options(warn = -1)
+listings_malaga <- listings[city=='malaga', ]
+listings_malaga$bep_year[listings_malaga$bep_year>100] <- 100
+g <- ggplot(listings_malaga, aes(bep_year,revenue_365))
+g + geom_smooth(method = lm) + labs(x="Break Even Point in Year", y='Revenue per Year')
+options(warn = defaultW)
+```
+
+
+
+## Conclusion
+
+- Our application is meant to help investors **compare cities**
+- It provides specific metrics **at glance**
+
+```{r}
+defaultW <- getOption("warn")
+options(warn = -1)
+listings_small <- listings[c(1:1000), ]
+listings_small %>%
+  leaflet() %>%
+  addTiles() %>%
+  addMarkers(popup = as.character(listings_small$revenue_365),clusterOptions = markerClusterOptions())
+options(warn = defaultW)
+```
