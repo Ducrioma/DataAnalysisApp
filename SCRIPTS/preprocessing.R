@@ -161,8 +161,9 @@ files_paths <- file.path(files_paths, "listings.csv")
 listings <-
     do.call(rbind,
       # to limit the size of the resulting dateset
-            lapply(files_paths, read.csv, row.names=1, nrows=2000))
+            lapply(files_paths, read.csv, row.names=1, nrows=5000))
 
+listings <- listings[complete.cases(listings), ]
 # PREPROCESSING #
 # BreakEvenPoint
 cities_spain <- c("sevilla","malaga")
