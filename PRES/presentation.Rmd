@@ -1,5 +1,5 @@
 ---
-title: "Data Analytics - Shainy App"
+title: "Data Analytics - Shiny App"
 output: slidy_presentation
 ---
 
@@ -95,14 +95,16 @@ __tools__ : [dplyr](https://dplyr.tidyverse.org), [ggplot2](https://ggplot2.tidy
 - For the sake of simplicity we have only selected Western European cities for the moment.
 
 
-            sample_cities <- c('Mallorca','Antwerp','Sevilla','Naploli')
+            sample_cities <- c('Mallorca','Antwerp','Sevilla','Napoli')
             
 
 
 ### Preprocessing  : getting data and prepare it
 
-- A part of the script were given but we added some functions : 
-![title](fct.png)
+A part of the script were given but we added some functions
+
+
+![](CLient.png)
 
 ### App architecture - server and ui
 
@@ -143,7 +145,7 @@ A more detailed analysis of a specific city (*what kind of investment in that ci
 
 ![](part2.png)
 
-First you can compare any metric over all the neigborhoods, the room types and the numbers of bedrooms at the same time.
+First you can compare any metric over 10 neigborhoods, the room types and the numbers of bedrooms at the same time.
 ![](finer.png)
 
 You can also plot a map to better understand the distribution within cities
@@ -164,7 +166,7 @@ options(warn = defaultW)
 - Approach based on fixed costs and variable costs.
 - Estimation of more profitable cities.
 
-```{r}
+```{r, message=FALSE}
 defaultW <- getOption("warn")
 options(warn = -1)
 listings$bep_year[listings$bep_year>100] <- 100
@@ -181,11 +183,11 @@ options(warn = defaultW)
 - It provides specific metrics **at glance**
 - Currently the App is limited to **5** cities for memory purposes
 - We would improve the app by adding more cities and select and process cities' data **on the fly**
-- And improve data visualisation  with math functions :** availability predictions, revenue estimation...**
-- We shared this app in a simplified version on https://karhyus.shinyapps.io/final_projet_sorrin_marini_barras/ and the whole project is available on //////
-- **Let's jump into the demo**
+- And improve data visualisation  with math functions : **availability predictions, revenue estimation...**
+- We shared this app in a simplified version on https://karhyus.shinyapps.io/final_projet_sorrin_marini_barras/ and the whole project is available on https://github.com/Ducrioma/DataAnalysisApp
+- **Now the demo**
 
-```{r}
+```{r, message=FALSE}
 defaultW <- getOption("warn")
 options(warn = -1)
 listings_malaga <- listings[city=='malaga', ]
