@@ -1,3 +1,4 @@
+
 # Data Analysis App
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/Ducrioma/DataAnalysisApp)
@@ -8,7 +9,7 @@ DataAnalysisApp is light `shiny app` that allows `investors` to do `decide wheth
 This app is based in Airbnb data fetch [in here](http://insideairbnb.com/get-the-data.html)
 
 This project is a small tool with no application in the scientific world.
-Meaning this can't help you becoming a millionier on the moon...
+Meaning this can't help you becoming a # Data Analysis App
 
 ## Prerequisites
 
@@ -16,11 +17,11 @@ Before you begin, ensure you have met the following requirements:
 * You have access to internet.
 * You have a `webbrowser` . Check if you have the latest version.
 
-## Using PyCalculator
+## Using DataAnalysisApp
 
 To use the App, follow these steps:
 ```
-Open [url] in your webbrowser
+Open https://karhyus.shinyapps.io/final_projet_sorrin_marini_barras/ in your web browser
 ```
 * You can navigate to tabs to select the city of your choice
 * Click on graphs, it is interactive.
@@ -29,20 +30,20 @@ Open [url] in your webbrowser
 ## Installing DataAnalysisApp
 
 To install DataAnalysisApp , follow these steps:
+First you need to have `Rstudio` installed and up-to-date.
 
 Linux and macOS:
 ```
 cd /YOUR_DIRECTORY/
 git clone https://github.com/Ducrioma/DataAnalysisApp.git
 cd DataAnalysisApp
-docker-compose up
 ```
 Windows:
 ```
 git clone https://github.com/Ducrioma/DataAnalysisApp.git
 cd /DataAnalysisApp
 ```
-
+Open the file `server.R` and lunch the app by clicking the green button in the right-hand corner.
 
 
 ## Contributing to DataAnalysisApp
