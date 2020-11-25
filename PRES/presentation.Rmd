@@ -88,9 +88,9 @@ __tools__ : [dplyr](https://dplyr.tidyverse.org), [ggplot2](https://ggplot2.tidy
 
 ### Overview - Subject 
 
-- We have to take care to select the best possible features and graphics to make effective decision making : **availability, price and revenue**
+- We have to take care to select the best possible features and graphics to make effective decision making : **availability, price and revenue** .
 
-- As real estate investors, we selected some indicators to be able to compare the cities with each other (and their neigborhoods)
+- As real estate investors, we selected some indicators to be able to compare the cities with each other (and their neigborhoods).
 
 - For the sake of simplicity we have only selected Western European cities for the moment.
 
@@ -99,56 +99,56 @@ __tools__ : [dplyr](https://dplyr.tidyverse.org), [ggplot2](https://ggplot2.tidy
             
 
 
-### Preprocessing  : getting data and prepare it
+### Preprocessing : get data and prepare it
 
 A part of the script were given but we added some functions
 
 
 ![](CLient.png)
 
-### App architecture - server and ui
+### App architecture - Server and ui
 
-- The UI part organizes the general layout, bind the inputs (**city, features to compare, graphics and metrics selection**) and render the outputs (**plots, specific values**)
+- The UI part organizes the general layout, binds the inputs (**city, features to compare, graphics and metrics selection**) and renders the outputs (**plots, specific values**).
 
-- The server part **catches the UI inputs** to do the computations and **sends the results back to the UI as outputs**. Other underlying functions could be implemented (Zoom function for exemple)
+- The server part **catches the UI inputs** to do the computations and **sends the results back to the UI as outputs**. Other underlying functions could be implemented (Zoom function for exemple).
 
-- We split the analysis of our application in two parts:
+- The model of analysis is splited in two parts:
     - A quick analysis to differentiate between cities (*which city to invest in ?*)
     - A more detailed analysis of a specific city (*what kind of investment in that city ?*) 
 
-### Graphical analysis - quick view and global comparaisons
+### Graphical analysis - Quick view and global comparaisons
 
-A quick analysis to differentiate between cities (*which city to invest in ?*)
+A quick analysis to differentiate between cities (*which city to invest in ?*) :
 
   - select one or more city 
-  - select the indicator (availability, price, revenue)
-  - selec an aggregation type
+  - select a metric (availability, price, revenue)
+  - select an aggregation type
   - overlay one other critera
 
 ![](part1.png)`
 
 
-### Graphical analysis - quick view and global comparaisons
+### Graphical analysis - Quick view and global comparaisons
 
-- The investor can use 3 differents graphics : **Boxplot, Histogram and density function**
+- The investor can use 3 differents graphics : **Boxplot, Histogram and density function**.
 ![](box.png)![](hist.png)![](density.png)
 
-- To easy the comparaison, it's possible to **overlay the graphics of dfferent cities** an even **add dimensions**
+- To easy the comparaison, it's possible to **overlay the graphics of dfferent cities** an even **add dimensions**.
 ![](3cities.png)![](dims.png)
 
-- when there are too many features, the graphics quickly become unreadable, so it is possible to **zoom in and out**
+- When there are too many features, the graphics quickly become unreadable, so it is possible to **zoom in and out**.
 ![](zoom-.png)![](zoom+.png)
 
 
-### Graphical analysis - deep dive into a specific city
-A more detailed analysis of a specific city (*what kind of investment in that city ?*) 
+### Graphical analysis - Dive into a specific city
+A more detailed analysis of a specific city (*what kind of investment in that city ?*)  :
 
 ![](part2.png)
 
 First you can compare any metric over 10 neigborhoods, the room types and the numbers of bedrooms at the same time.
 ![](finer.png)
 
-You can also plot a map to better understand the distribution within cities
+You can also plot a map to better understand the distribution within cities.
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 defaultW <- getOption("warn")
 options(warn = -1)
@@ -178,14 +178,14 @@ options(warn = defaultW)
 
 
 ### Conclusion 
-- Our application is meant to help investors **compare cities and neigborhoods**
-- Once the city is selected, the investor can make precision about the kind of asset to invest in and the neigborhood.
-- It provides specific metrics **at glance**
-- Currently the App is limited to **4** cities for memory purposes
-- We would improve the app by adding more cities and select and process cities' data **on the fly**
-- And improve data visualisation  with math functions : **availability predictions, revenue estimation...**
-- We shared this app in a simplified version on https://karhyus.shinyapps.io/final_projet_sorrin_marini_barras/ and the whole project is available on https://github.com/Ducrioma/DataAnalysisApp
-- **Now the demo**
+- Our application is meant to help investors **compare cities and neigborhoods**.
+- Once the city is selected, the investor can determine more objectively what type of property it should invest in and in which neighborhoods.
+- It provides specific metrics **at glance**.
+- Currently the App is limited to **4** cities for memory purposes.
+- We would improve the app by adding more cities and select and process cities' data **on the fly**.
+- And improve data visualisation  with math functions : **availability predictions, revenue estimation...**.
+- We shared this app in a simplified version on https://karhyus.shinyapps.io/final_projet_sorrin_marini_barras/ and the whole project is available on https://github.com/Ducrioma/DataAnalysisApp .
+- **Now the demo !**
 
 ```{r, message=FALSE}
 defaultW <- getOption("warn")
