@@ -181,7 +181,7 @@ options(warn = defaultW)
 - Our application is meant to help investors **compare cities and neigborhoods**
 - Once the city is selected, the investor can make precision about the kind of asset to invest in and the neigborhood.
 - It provides specific metrics **at glance**
-- Currently the App is limited to **5** cities for memory purposes
+- Currently the App is limited to **4** cities for memory purposes
 - We would improve the app by adding more cities and select and process cities' data **on the fly**
 - And improve data visualisation  with math functions : **availability predictions, revenue estimation...**
 - We shared this app in a simplified version on https://karhyus.shinyapps.io/final_projet_sorrin_marini_barras/ and the whole project is available on https://github.com/Ducrioma/DataAnalysisApp
