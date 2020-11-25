@@ -125,7 +125,7 @@ selected_cities <- unlist(strsplit(selected_cities, ","))
 selected_cities <- gsub(" ", "", selected_cities, fixed = TRUE)
 # Randomly choose 3 cities
 # sample_cities <- sample(selected_cities,3)
-sample_cities <- c('florence','antwerp','bordeaux','sevilla','malaga')
+sample_cities <- c('bordeaux','sevilla','malaga')
 # Reading data for the 3 cities
 for(i in 1:length(sample_cities)){
     city <- sample_cities[i]

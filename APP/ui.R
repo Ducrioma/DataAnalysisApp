@@ -1,8 +1,16 @@
-source("../SCRIPTS/preprocessing.R")
+# COMMENTAIRE DE SOURCE A ENLEVER POUR LE RENDU
+source("data_preparation_script.R")
+
 library(shiny)
+library(dplyr)
+library(stringr)
+library(ggplot2)
+library(data.table)
+library(leaflet)
+library(rsconnect)
 
 # See above for the definitions of ui and server
-ui <- fluidPage(
+fluidPage(
 
   # App title ----
   titlePanel("Instruction List 3"),
@@ -15,12 +23,6 @@ ui <- fluidPage(
                   tabPanel("Comparing Cities",
                            br(),
                            sidebarPanel(
-                             # checkboxGroupInput("cities1","Cities to compare:",
-                             #              c("Malaga" = "malaga",
-                             #                "Mallorca" = "mallorca",
-                             #                "Sevilla" = "sevilla"),
-                             #              selected = "Malaga"
-                             #                ),
                              checkboxGroupInput("cities1","Cities to compare:",
                                                 choices = unique(listings$city)
                              ),
@@ -48,14 +50,12 @@ ui <- fluidPage(
                              selectInput("plot_type","Plot type",
                                           c("Boxplot" = "geom_boxplot",
                                             "Histogram" = "histo",
-                                            "Density" = "density",
-                                            "...")),
+                                            "Density" = "density")),
                              br(),
                              selectInput("ndim","Add a criteria",
                                                 c("No additional criteria" = "no_criteria",
                                                   "Room type" = "room_type",
-                                                  "House size (# of bedrooms)" = "bedrooms",
-                                                  "Neighborhood" = "neighbourhood_cleansed"
+                                                  "House size (# of bedrooms)" = "bedrooms"
                                                   )),
                              width = 4
                            ),
@@ -79,17 +79,33 @@ ui <- fluidPage(
                            br(),
                            sidebarPanel(
                              selectInput("cities2","City to analyze",
-                                         c("Malaga",
-                                           "Sevilla",
-                                           "Mallorca")),
-                             width = 5
+                                         choices = unique(listings$city)),
+                             br(),
+                             selectInput("features2","Features to compare",
+                                         c("Availability over 30 days" = "availability_30",
+                                           "Availability over 60 days" = "availability_60",
+                                           "Availability over 90 days" = "availability_90",
+                                           "Availability over 365 days" = "availability_365",
+                                           "Price over 30 days" = "price_30",
+                                           "Price over 60 days" = "price_60",
+                                           "Price over 90 days" = "price_90",
+                                           "Price over 365 days" = "price_365",
+                                           "Revenue over 30 days" = "revenue_30",
+                                           "Revenue over 60 days" = "revenue_60",
+                                           "Revenue over 90 days" = "revenue_90",
+                                           "Revenue over 365 days" = "revenue_365",
+                                           "...")),
+                             width = 4
                            ),
-                           tabsetPanel(
-                             tabPanel("Finer Grained Analysis",
-                                      plotOutput(outputId = "fine_grained")),
-                             tabPanel("Map of the population",
-                                      plotOutput(outputId = "pop_map"))
-                           ))
+                           mainPanel(
+                             tabsetPanel(
+                               tabPanel("Finer Grained Analysis",
+                                        plotOutput(outputId = "fine_grained")),
+                               tabPanel("Map of the population",
+                                        leafletOutput("mymap"))
+                             )
+                           )
+)
 
     ), width = 12
 
