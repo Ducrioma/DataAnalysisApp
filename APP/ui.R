@@ -1,10 +1,16 @@
 # COMMENTAIRE DE SOURCE A ENLEVER POUR LE RENDU
-#source("data_preparation_script.R")
+source("data_preparation_script.R")
 
 library(shiny)
+library(dplyr)
+library(stringr)
+library(ggplot2)
+library(data.table)
+library(leaflet)
+library(rsconnect)
 
 # See above for the definitions of ui and server
-ui <- fluidPage(
+fluidPage(
 
   # App title ----
   titlePanel("Instruction List 3"),
