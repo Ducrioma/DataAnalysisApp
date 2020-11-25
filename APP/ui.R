@@ -1,5 +1,5 @@
 # COMMENTAIRE DE SOURCE A ENLEVER POUR LE RENDU
-source("data_preparation_script.R")
+source("../SCRIPTS/preprocessing.R")
 
 library(shiny)
 library(dplyr)
@@ -10,7 +10,7 @@ library(leaflet)
 library(rsconnect)
 
 # See above for the definitions of ui and server
-fluidPage(
+ui <- fluidPage(
 
   # App title ----
   titlePanel("Instruction List 3"),

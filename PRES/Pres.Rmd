@@ -5,6 +5,7 @@ date: "24/11/2020"
 output:
   slidy_presentation:
     font_adjustment: -1
+  ioslides_presentation: default
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
