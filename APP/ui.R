@@ -39,8 +39,7 @@ fluidPage(
                                           "Revenue over 30 days" = "revenue_30",
                                           "Revenue over 60 days" = "revenue_60",
                                           "Revenue over 90 days" = "revenue_90",
-                                          "Revenue over 365 days" = "revenue_365",
-                                          "...")),
+                                          "Revenue over 365 days" = "revenue_365")),
                             br(),
                             selectInput("aggreg","Aggregation type",
                                         c("Mean" = "mean",
@@ -92,8 +91,7 @@ fluidPage(
                                           "Revenue over 30 days" = "revenue_30",
                                           "Revenue over 60 days" = "revenue_60",
                                           "Revenue over 90 days" = "revenue_90",
-                                          "Revenue over 365 days" = "revenue_365",
-                                          "...")),
+                                          "Revenue over 365 days" = "revenue_365")),
                             width = 4
                           ),
                           mainPanel(
