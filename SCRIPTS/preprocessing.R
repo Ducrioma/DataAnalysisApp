@@ -160,7 +160,8 @@ for(city in sample_cities){
 files_paths <- file.path(files_paths, "listings.csv")
 listings <-
     do.call(rbind,
-            lapply(files_paths, read.csv, row.names=1))
+      # to limit the size of the resulting dateset
+            lapply(files_paths, read.csv, row.names=1, nrows=2000))
 
 # PREPROCESSING #
 # BreakEvenPoint
