@@ -44,8 +44,7 @@ fluidPage(
                             br(),
                             selectInput("aggreg","Aggregation type",
                                         c("Mean" = "mean",
-                                          "Median" = "median",
-                                          "...")),
+                                          "Median" = "median")),
                             br(),
                             selectInput("plot_type","Plot type",
                                         c("Boxplot" = "geom_boxplot",
@@ -102,7 +101,9 @@ fluidPage(
                               tabPanel("Finer Grained Analysis",
                                        plotOutput(outputId = "fine_grained")),
                               tabPanel("Map of the population",
-                                       leafletOutput("mymap"))
+                                       leafletOutput("mymap")),
+                              tabPanel("Break Even Point",
+                                       plotOutput(outputId = "break_even_point"))
                             )
                           )
                  )

@@ -161,6 +161,18 @@ server <- function(input, output,session) {
     load_data_map()
   )
   
+  display_bep = reactive({
+    listings$bep_year[listings$bep_year>100] <- 100
+    
+    return(ggplot(listings, aes(x=bep_year, color=city)) +
+      geom_density(size=0.5)+
+      labs(title="Break Even Point density curve",x="Year", y = "Density"))
+  })
+  
+  output$break_even_point <- renderPlot(
+    display_bep()
+  )
+  
   observeEvent(input$plot1_dblclick, {
     brush <- input$plot1_brush
     if (!is.null(brush)) {
